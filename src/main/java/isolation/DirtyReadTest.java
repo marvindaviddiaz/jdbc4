@@ -1,11 +1,11 @@
-package com.sample.jdbc4.chapter1.isolation;
+package isolation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.sample.jdbc4.chapter1.DriverManagerTest;
+import connection.DriverManagerTest;
 
 /**
  * TRANSACTION_READ_COMMITTED = Dirty-reads CANNOT be done. Non-repeatable reads
@@ -60,7 +60,7 @@ public class DirtyReadTest {
 		ResultSet rs = null;
 
 		// SELECT VERSION TRX 1
-		p = connection1.prepareStatement("SELECT VERSION FROM SANDBOX.JDBC4_PRODUCTS WHERE ID = ?");
+		p = connection1.prepareStatement("select version from product where id = ?");
 		p.setInt(1, PRODUCT_ID);
 		rs = p.executeQuery();
 		rs.next();
@@ -68,14 +68,14 @@ public class DirtyReadTest {
 		rs.close();
 
 		// INCREMENT VERSION TRX 2
-		p = connection2.prepareStatement("UPDATE SANDBOX.JDBC4_PRODUCTS SET VERSION = (VERSION + 1) WHERE ID = ?");
+		p = connection2.prepareStatement("update product set version = (version + 1) where id = ?");
 		p.setInt(1, PRODUCT_ID);
 		p.executeUpdate();
 		p.close();
 		System.out.println("CONNECTION-2 Product version has been increased, Not commited yet!");
 
 		// SELECT VERSION TRX1
-		p = connection1.prepareStatement("SELECT VERSION FROM SANDBOX.JDBC4_PRODUCTS WHERE ID = ?");
+		p = connection1.prepareStatement("select version from product where id = ?");
 		p.setInt(1, PRODUCT_ID);
 		rs = p.executeQuery();
 		rs.next();

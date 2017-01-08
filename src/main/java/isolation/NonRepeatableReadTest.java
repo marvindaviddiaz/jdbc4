@@ -1,4 +1,4 @@
-package com.sample.jdbc4.chapter1.isolation;
+package isolation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.sample.jdbc4.chapter1.DriverManagerTest;
+import connection.DriverManagerTest;
 
 /**
  * TRANSACTION_REPEATABLE_READ = In the example, 1er: select record, 2nd: update
@@ -77,7 +77,7 @@ public class NonRepeatableReadTest {
 			try {
 				// SELECT VERSION TRX 1
 				eventos.add("CONNECTION-1 run");
-				PreparedStatement p = connection1.prepareStatement("SELECT VERSION FROM SANDBOX.JDBC4_PRODUCTS WHERE ID = ?");
+				PreparedStatement p = connection1.prepareStatement("select version from product where id = ?");
 				p.setInt(1, PRODUCT_ID);
 				ResultSet rs = p.executeQuery();
 				rs.next();
@@ -95,7 +95,7 @@ public class NonRepeatableReadTest {
 			try {
 				// INCREMENT VERSION TRX 2
 				eventos.add("CONNECTION-2 run");
-				PreparedStatement p = connection2.prepareStatement("UPDATE SANDBOX.JDBC4_PRODUCTS SET VERSION = (VERSION+1) WHERE ID = ?");
+				PreparedStatement p = connection2.prepareStatement("update product set version = (version+1) where id = ?");
 				p.setInt(1, PRODUCT_ID);
 				p.executeUpdate();
 				p.close();

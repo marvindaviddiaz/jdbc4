@@ -1,12 +1,15 @@
-CREATE TABLE SANDBOX.JDBC4_PRODUCTS (
-    ID INTEGER NOT NULL,
-    VERSION INTEGER,
-    DESCRIPTION VARCHAR(255),
-    PRICE DECIMAL(15, 2)
+create database sandbox;
+use sandbox;
+
+create table sandbox.product (
+    id integer not null,
+    version integer,
+    description varchar(255),
+    price decimal(15, 2)
 );
 
-ALTER TABLE SANDBOX.JDBC4_PRODUCTS ADD PRIMARY KEY(ID);
+alter table sandbox.product add primary key(id);
 
-INSERT INTO SANDBOX.JDBC4_PRODUCTS VALUES(1,0,'Pepsi-Cola 12 onz', 3.50);
-INSERT INTO SANDBOX.JDBC4_PRODUCTS VALUES(2,0,'Cola-Cola 12 onz', 4.50);
-INSERT INTO SANDBOX.JDBC4_PRODUCTS VALUES(3,0,'7up 12 onz', 5.50);
+insert into sandbox.product values(1,0,'pepsi-cola 12 onz', 3.50);
+insert into sandbox.product values(2,0,'cola-cola 12 onz', 4.50);
+insert into sandbox.product values(3,0,'7up 12 onz', 5.50);

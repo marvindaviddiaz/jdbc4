@@ -1,4 +1,4 @@
-package com.sample.jdbc4.chapter1.isolation;
+package isolation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.sample.jdbc4.chapter1.DriverManagerTest;
+import connection.DriverManagerTest;
 
 /**
  * TRANSACTION_SERIALIZABLE = In the example, 1er: select with IN, 2nd: update
@@ -57,7 +57,7 @@ public class PhantomReadTest {
 		DriverManagerTest.printConnection(connection2);
 
 		// Prepare test set
-		connection2.prepareStatement("UPDATE SANDBOX.JDBC4_PRODUCTS SET VERSION = 0").execute();// Autocommit:true
+		connection2.prepareStatement("update product set version = 0").execute();// Autocommit:true
 
 		new Select().start();
 		Thread.sleep(1000);
@@ -81,7 +81,7 @@ public class PhantomReadTest {
 			try {
 				// SELECT VERSION TRX 1
 				eventos.add("CONNECTION-1 run");
-				PreparedStatement p = connection1.prepareStatement("SELECT ID FROM SANDBOX.JDBC4_PRODUCTS WHERE VERSION IN(0,1)");
+				PreparedStatement p = connection1.prepareStatement("select id from product where version in(0,1)");
 				ResultSet rs = p.executeQuery();
 				int i = 0;
 				while (rs.next()) {
@@ -101,7 +101,7 @@ public class PhantomReadTest {
 			try {
 				// INCREMENT VERSION TRX 2
 				eventos.add("CONNECTION-2 run");
-				PreparedStatement p = connection2.prepareStatement("UPDATE SANDBOX.JDBC4_PRODUCTS SET VERSION = 2 WHERE ID = ?");
+				PreparedStatement p = connection2.prepareStatement("update product set version = 2 where id = ?");
 				p.setInt(1, PRODUCT_ID);
 				p.executeUpdate();
 				p.close();

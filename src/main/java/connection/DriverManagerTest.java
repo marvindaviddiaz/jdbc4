@@ -1,4 +1,4 @@
-package com.sample.jdbc4.chapter1;
+package connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DriverManagerTest {
 
-	private static String URL = "jdbc:db2://aws:50000/SAMPLE:driverType=4;";
-	private static String USER = "db2inst1";
-	private static String PASSWORD = "db2inst1";
+	private static String URL = "jdbc:mysql://localhost:3306/sandbox?useSSL=false";
+	private static String USER = "root";
+	private static String PASSWORD = "root";
 
 	public static Connection createConnection() throws SQLException {
 		Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
