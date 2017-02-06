@@ -10,30 +10,18 @@ public class DriverManagerTest {
 	private static String USER = "root";
 	private static String PASSWORD = "root";
 
-	public static Connection createConnection() throws SQLException {
+	public static Connection createConnection(Integer isolationLevel, Boolean autocommit) throws SQLException {
 		Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-		return connection;
-	}
+		connection.setTransactionIsolation(isolationLevel);
+		connection.setAutoCommit(autocommit);
 
-	public static void printConnection(Connection connection) throws SQLException {
-		System.out.print("### Conexion creada ###");
-		System.out.print("\t Catalog: " + connection.getCatalog());
-		System.out.print("\t Schema: " + connection.getSchema());
-		System.out.print("\t AutoCommit: " + connection.getAutoCommit());
-		System.out.print("\t ReadOnly: " + connection.isReadOnly());
+		System.out.print("New Connection: ");
+		System.out.print(" AutoCommit: " + connection.getAutoCommit());
+		System.out.print(" ReadOnly: " + connection.isReadOnly());
 		int ti = connection.getTransactionIsolation();
-		System.out.print("\t TransactionIsolation: " + (ti == 0 ? "NONE" : ti == 1 ? "READ_UNCOMMITTED" : ti == 2 ? "READ_COMMITTED" : ti == 2 ? "REPEATABLE_READ" : ti == 8 ? "SERIALIZABLE" : ti));
-		int h = connection.getHoldability();
-		System.out.print("\t Holdability: " + (h == 1 ? "HOLD_CURSORS_OVER_COMMIT" : ti == 2 ? "CLOSE_CURSORS_AT_COMMIT" : h));
-		System.out.println("\t NetworkTimeout: " + connection.getNetworkTimeout());
+		System.out.println(" Isolation Level: " + (ti == 0 ? "NONE" : ti == 1 ? "READ_UNCOMMITTED" : ti == 2 ? "READ_COMMITTED" : ti == 2 ? "REPEATABLE_READ" : ti == 8 ? "SERIALIZABLE" : ti));
 
-	}
-
-	public static void main(String[] args) throws SQLException {
-
-		Connection c = createConnection();
-		c.close();
-
+		return connection;
 	}
 
 }
