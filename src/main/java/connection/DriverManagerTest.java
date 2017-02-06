@@ -11,6 +11,7 @@ public class DriverManagerTest {
 	private static String PASSWORD = "root";
 
 	public static Connection createConnection(Integer isolationLevel, Boolean autocommit) throws SQLException {
+		
 		Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
 		connection.setTransactionIsolation(isolationLevel);
 		connection.setAutoCommit(autocommit);
@@ -19,7 +20,7 @@ public class DriverManagerTest {
 		System.out.print(" AutoCommit: " + connection.getAutoCommit());
 		System.out.print(" ReadOnly: " + connection.isReadOnly());
 		int ti = connection.getTransactionIsolation();
-		System.out.println(" Isolation Level: " + (ti == 0 ? "NONE" : ti == 1 ? "READ_UNCOMMITTED" : ti == 2 ? "READ_COMMITTED" : ti == 2 ? "REPEATABLE_READ" : ti == 8 ? "SERIALIZABLE" : ti));
+		System.out.println(" Isolation Level: " + (ti == 0 ? "NONE" : ti == 1 ? "READ_UNCOMMITTED" : ti == 2 ? "READ_COMMITTED" : ti == 4 ? "REPEATABLE_READ" : ti == 8 ? "SERIALIZABLE" : ti));
 
 		return connection;
 	}
